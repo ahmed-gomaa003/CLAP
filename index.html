@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>رحلتي في عالم الكمبيوتر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F7FF; --surface:#FFFFFF; --soft:#E8EEFC; --ink:#1B2540; --muted:#55617F;
+  --blue:#2D5BFF; --yellow:#FFC83D; --green:#16975F; --pink:#E8457A; --line:#D3DCF2;
+  --screen:#0E1B4D; --screen-ink:#D9F7FF;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#10162A; --surface:#1A2240; --soft:#222C52; --ink:#EEF2FF; --muted:#A9B4D3;
+    --blue:#86A2FF; --yellow:#FFD666; --green:#4FD49A; --pink:#FF85A9; --line:#2F3A66;
+    --screen:#060B22; --screen-ink:#BDF3FF; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10162A; --surface:#1A2240; --soft:#222C52; --ink:#EEF2FF; --muted:#A9B4D3;
+  --blue:#86A2FF; --yellow:#FFD666; --green:#4FD49A; --pink:#FF85A9; --line:#2F3A66;
+  --screen:#060B22; --screen-ink:#BDF3FF; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 90px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Baloo Bhaijaan 2","Segoe UI",Tahoma,Arial,sans-serif;font-size:1.15rem;line-height:1.7}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+img{max-width:100%}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+.ltr{direction:ltr;unicode-bidi:isolate;font-family:Consolas,"Courier New",monospace}
+
+/* Hero */
+.hero{max-width:1000px;margin:0 auto;padding:2rem 1rem 1rem;display:flex;flex-direction:column;align-items:center}
+.monitor{width:min(560px,100%);background:#2B3550;border-radius:22px;padding:16px 16px 22px;box-shadow:0 14px 0 -6px #1d2438}
+.screen{background:var(--screen);color:var(--screen-ink);border-radius:12px;padding:1.6rem 1.4rem;min-height:170px;display:flex;flex-direction:column;justify-content:center;gap:.4rem}
+.screen h1{margin:0;font-size:clamp(1.9rem,6vw,2.8rem);line-height:1.25;font-weight:800}
+.screen p{margin:0;font-size:1.1rem;opacity:.85}
+.cursor{display:inline-block;width:.55em;height:1.05em;background:var(--yellow);vertical-align:-.15em;margin-inline-start:.2em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.stand{width:90px;height:34px;background:#2B3550;margin-top:-2px;clip-path:polygon(25% 0,75% 0,90% 100%,10% 100%)}
+.base{width:180px;height:12px;background:#2B3550;border-radius:8px}
+
+/* Nav */
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:2px solid var(--line)}
+.nav-inner{max-width:1000px;margin:0 auto;display:flex;gap:.5rem;overflow-x:auto;padding:.7rem 1rem}
+.nav-inner a{flex:0 0 auto;text-decoration:none;color:var(--ink);background:var(--soft);border-radius:999px;padding:.35rem .9rem;font-weight:600;font-size:1rem;display:flex;align-items:center;gap:.4rem;border:2px solid transparent}
+.nav-inner a .n{display:inline-grid;place-items:center;width:1.6em;height:1.6em;border-radius:50%;background:var(--surface);font-size:.85rem}
+.nav-inner a.active{background:var(--blue);color:#fff}
+.nav-inner a.active .n{background:var(--yellow);color:#1B2540}
+
+main{max-width:1000px;margin:0 auto;padding:1.5rem 1rem 3rem}
+section.lesson{display:none}
+section.lesson.show{display:block}
+.lesson h2{font-size:clamp(1.6rem,4.5vw,2.2rem);margin:.2rem 0 .3rem;font-weight:800}
+.lead{color:var(--muted);margin:0 0 1.2rem;max-width:65ch}
+h3{font-size:1.3rem;margin:1.6rem 0 .6rem}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:1.2rem;margin:1rem 0}
+.idea{background:var(--yellow);color:#1B2540;border-radius:18px;padding:1rem 1.2rem;margin:1rem 0;display:flex;gap:.8rem;align-items:flex-start}
+.idea .big{font-size:2.2rem;line-height:1}
+.idea p{margin:0}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:12px;padding:.45rem 1.1rem;font-weight:600}
+.btn.alt{background:var(--soft);color:var(--ink)}
+.btn.green{background:var(--green);color:#fff}
+.btn.pink{background:var(--pink);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+input[type=text]{font:inherit;padding:.4rem .8rem;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink);min-width:0;flex:1 1 180px}
+.msg{min-height:1.8em;font-weight:600;margin-top:.6rem}
+.msg.bad{color:var(--pink)} .msg.good{color:var(--green)}
+kbd{display:inline-block;font-family:inherit;font-weight:600;background:var(--surface);border:2px solid var(--line);border-bottom-width:5px;border-radius:9px;padding:.05rem .6rem;direction:ltr;font-size:1rem}
+.steps{padding:0;margin:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:.8rem;align-items:flex-start;margin:.6rem 0}
+.steps li::before{content:counter(s);flex:0 0 auto;display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--blue);color:#fff;font-weight:800}
+.pager{display:flex;justify-content:space-between;gap:1rem;margin-top:2rem}
+.pager .btn{padding:.6rem 1.3rem}
+
+/* Lesson 1 */
+.mouse-pad{user-select:none;background:var(--soft);border:3px dashed var(--blue);border-radius:18px;min-height:170px;display:grid;place-items:center;text-align:center;padding:1rem;position:relative}
+.mouse-pad .face{font-size:3rem;line-height:1}
+.ctx{position:absolute;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:.3rem;box-shadow:0 8px 20px rgba(0,0,0,.18);display:none;text-align:right;min-width:150px;z-index:2}
+.ctx div{padding:.2rem .7rem;border-radius:8px;font-size:1rem}
+.ctx div:hover{background:var(--soft)}
+.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem}
+.key{background:var(--surface);border:2px solid var(--line);border-bottom-width:7px;border-radius:14px;padding:.7rem;text-align:center;transition:transform .1s}
+.key b{display:block;direction:ltr;font-size:1.2rem}
+.key span{font-size:.95rem;color:var(--muted)}
+.key.hit{transform:translateY(4px);border-color:var(--green);border-bottom-width:3px}
+.pressed{font-size:1.4rem;font-weight:800;text-align:center;padding:.6rem;border-radius:14px;background:var(--soft)}
+
+/* Desktop / explorer */
+.desk{background:linear-gradient(160deg,#3E6BFF,#1F3DAE);border-radius:16px;min-height:170px;padding:1rem;display:flex;flex-wrap:wrap;gap:.6rem;align-content:flex-start}
+.item{width:104px;text-align:center;color:#fff;border:2px solid transparent;border-radius:12px;padding:.4rem;background:none;font-size:.95rem;line-height:1.3;word-break:break-word}
+.item .ic{font-size:2.6rem;display:block;line-height:1.2}
+.item.sel{background:rgba(255,255,255,.22);border-color:#fff}
+.explorer{border:2px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+.addr{display:flex;gap:.5rem;align-items:center;background:var(--soft);padding:.6rem;border-bottom:2px solid var(--line)}
+.addr .bar{flex:1;background:var(--surface);border:2px solid var(--line);border-radius:10px;padding:.3rem .7rem;overflow-x:auto;white-space:nowrap;font-size:1rem}
+.files{display:flex;flex-wrap:wrap;gap:.5rem;padding:1rem;min-height:150px}
+.files .item{color:var(--ink)}
+.files .item:hover{background:var(--soft)}
+.files .item.sel{background:var(--soft);border-color:var(--blue)}
+.treasure{background:var(--soft);border-radius:14px;padding:.8rem 1rem;margin-bottom:1rem}
+.address-demo{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;direction:ltr;justify-content:flex-end}
+.address-demo span{background:var(--soft);border-radius:10px;padding:.2rem .6rem;font-family:Consolas,monospace}
+.address-demo i{font-style:normal;color:var(--pink);font-weight:800;font-family:Consolas,monospace}
+
+/* Ext */
+.ext-pick{display:flex;flex-wrap:wrap;gap:.4rem}
+.ext-pick button{border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:.2rem .7rem;direction:ltr;font-family:Consolas,monospace}
+.ext-pick button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.ext-show{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;margin-top:1rem}
+.ext-show .ic{font-size:4.5rem;line-height:1}
+.fname{font-size:1.6rem;font-weight:800;direction:ltr;unicode-bidi:isolate}
+.fname .e{color:var(--pink)}
+
+/* HTML editor */
+.editor{display:grid;gap:1rem;grid-template-columns:1fr 1fr}
+@media (max-width:720px){.editor{grid-template-columns:1fr}}
+textarea{width:100%;min-height:240px;font-family:Consolas,"Courier New",monospace;font-size:1rem;direction:ltr;text-align:left;padding:.8rem;border-radius:14px;border:2px solid var(--line);background:#0E1B4D;color:#D9F7FF;resize:vertical}
+.browser{border:2px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.browser .top{background:#E4E8F2;color:#333;padding:.35rem .6rem;font-size:.9rem;display:flex;gap:.4rem;align-items:center;direction:ltr}
+.dots i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}
+.browser iframe{border:0;width:100%;flex:1;min-height:240px;background:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.chips button{background:var(--soft);color:var(--ink);border:0;border-radius:999px;padding:.15rem .8rem;font-size:.95rem}
+
+/* Copy paste */
+.folders2{display:grid;gap:1rem;grid-template-columns:1fr 1fr}
+@media (max-width:600px){.folders2{grid-template-columns:1fr}}
+.fbox{border:3px solid var(--line);border-radius:16px;background:var(--surface);min-height:180px}
+.fbox.target{border-color:var(--green)}
+.fbox header{background:var(--soft);padding:.5rem .8rem;border-radius:13px 13px 0 0;font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+.fbox header button{background:var(--surface);border:2px solid var(--line);color:var(--ink);border-radius:10px;font-size:.9rem;padding:0 .6rem}
+.fbox .files{min-height:120px}
+.clip{background:var(--soft);border-radius:14px;padding:.6rem 1rem;margin:1rem 0}
+.short{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem}
+.short div{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:.6rem .8rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+
+/* Bin */
+.bin-wrap{display:grid;gap:1rem;grid-template-columns:2fr 1fr}
+@media (max-width:600px){.bin-wrap{grid-template-columns:1fr}}
+.binlist{background:var(--soft);border-radius:16px;padding:1rem;min-height:150px}
+.binlist h4{margin:0 0 .5rem}
+.lrow{display:flex;justify-content:space-between;align-items:center;gap:.5rem;background:var(--surface);border-radius:10px;padding:.3rem .6rem;margin:.3rem 0;font-size:1rem}
+.lrow button{border:0;border-radius:8px;padding:0 .6rem;font-size:.9rem}
+
+/* Checklist */
+.check{display:flex;gap:.8rem;align-items:flex-start;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:.9rem 1rem;margin:.7rem 0;cursor:pointer}
+.check input{width:1.6rem;height:1.6rem;margin-top:.2rem;accent-color:var(--green);flex:0 0 auto}
+.check.done{border-color:var(--green)}
+.stars{font-size:2.4rem;text-align:center;letter-spacing:.3rem}
+.celebrate{text-align:center;font-size:1.5rem;font-weight:800;color:var(--green);min-height:2.4rem}
+
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}.key{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="monitor" aria-hidden="false">
+    <div class="screen">
+      <h1>رحلتي في عالم الكمبيوتر<span class="cursor" aria-hidden="true"></span></h1>
+      <p>٨ محطات صغيرة، في كل واحدة حاجة نجربها بإيدينا</p>
+    </div>
+  </div>
+  <div class="stand" aria-hidden="true"></div>
+  <div class="base" aria-hidden="true"></div>
+</header>
+
+<nav aria-label="الدروس"><div class="nav-inner" id="nav"></div></nav>
+
+<main>
+
+<!-- 1 -->
+<section class="lesson" id="lesson1" data-title="الماوس والكيبورد">
+  <h2>🖱️ الماوس والكيبورد</h2>
+  <p class="lead">الماوس والكيبورد هما الإيدين اللي بنكلم بيهم الكمبيوتر.</p>
+
+  <h3>جرّب الماوس هنا</h3>
+  <div class="grid">
+    <div class="box" style="margin:0">
+      <p style="margin-top:0">🖱️ <b>كليك شمال مرة:</b> اختار<br>🖱️🖱️ <b>دبل كليك:</b> افتح<br>👉 <b>كليك يمين:</b> قائمة الاختيارات</p>
+    </div>
+    <div class="mouse-pad" id="pad" tabindex="0" aria-live="polite">
+      <div><div class="face" id="padFace">🙂</div><div id="padText">اضغط هنا بالماوس</div></div>
+      <div class="ctx" id="ctx"><div>📂 فتح</div><div>📋 نسخ</div><div>✂️ قص</div><div>✏️ تغيير الاسم</div><div>🗑️ حذف</div></div>
+    </div>
+  </div>
+
+  <h3>أهم زراير الكيبورد</h3>
+  <p class="lead" style="margin-bottom:.6rem">دوس على أي زرار في الكيبورد بتاعك وشوف هيحصل إيه.</p>
+  <div class="keys">
+    <div class="key" data-k="Enter"><b>Enter ↵</b><span>تأكيد / سطر جديد</span></div>
+    <div class="key" data-k="Backspace"><b>⌫ Backspace</b><span>مسح اللي قبل المؤشر</span></div>
+    <div class="key" data-k="Shift"><b>⇧ Shift</b><span>حروف كبيرة ورموز</span></div>
+    <div class="key" data-k=" "><b>Space</b><span>مسافة بين الكلام</span></div>
+  </div>
+  <div class="pressed" id="pressed" style="margin-top:1rem" aria-live="polite">⌨️ مستني تدوس على زرار…</div>
+</section>
+
+<!-- 2 -->
+<section class="lesson" id="lesson2" data-title="الملفات والفولدرات">
+  <h2>📁 الملفات والفولدرات</h2>
+  <p class="lead">الكمبيوتر زي دولاب كبير بنرتب فيه حاجتنا.</p>
+  <div class="grid">
+    <div class="box" style="margin:0;text-align:center"><div style="font-size:3rem">🗄️</div><b>الهارد ديسك</b><br>الدولاب كله</div>
+    <div class="box" style="margin:0;text-align:center"><div style="font-size:3rem">📁</div><b>الفولدر (Folder)</b><br>درج جوه الدولاب، وممكن يكون جواه أدراج تانية</div>
+    <div class="box" style="margin:0;text-align:center"><div style="font-size:3rem">📄</div><b>الملف (File)</b><br>ورقة جوه الدرج</div>
+  </div>
+
+  <h3>إزاي نعمل فولدر أو ملف على الكمبيوتر الحقيقي</h3>
+  <ol class="steps">
+    <li>اعمل كليك يمين في مكان فاضي.</li>
+    <li>اختار <b>New</b>.</li>
+    <li>اختار <b>Folder</b> عشان تعمل فولدر، أو <b>Text Document</b> عشان تعمل ملف.</li>
+    <li>اكتب الاسم واضغط <kbd>Enter</kbd>. ولو عايز تغيّر الاسم بعدين: كليك يمين ثم <b>Rename</b>، أو زرار <kbd>F2</kbd>.</li>
+  </ol>
+
+  <h3>جرّب بنفسك على سطح المكتب ده</h3>
+  <div class="box">
+    <div class="row">
+      <input type="text" id="newName" placeholder="اكتب اسم، مثلاً: واجباتي">
+      <button class="btn" id="mkFolder">📁 فولدر جديد</button>
+      <button class="btn green" id="mkFile">📄 ملف جديد</button>
+      <button class="btn alt" id="rename">✏️ غيّر اسم المختار (F2)</button>
+    </div>
+    <div class="msg" id="deskMsg" aria-live="polite"></div>
+    <div class="desk" id="desk"></div>
+  </div>
+  <div class="idea"><span class="big">💡</span><p>الأسماء مينفعش يكون فيها الرموز دي: <span class="ltr">\ / : * ? " &lt; &gt; |</span> — جرّب تكتب واحد منهم وشوف هيحصل إيه.</p></div>
+</section>
+
+<!-- 3 -->
+<section class="lesson" id="lesson3" data-title="مسار الملف">
+  <h2>🗺️ مسار الملف (File Path)</h2>
+  <p class="lead">المسار هو عنوان الملف. زي ما عنوان البيت بيقول البلد ثم الشارع ثم العمارة، المسار بيقول الهارد ثم الفولدر ثم الملف.</p>
+  <div class="box">
+    <div class="address-demo" aria-label="مثال لمسار">
+      <span>C:</span><i>\</i><span>Users</span><i>\</i><span>Ahmed</span><i>\</i><span>Desktop</span><i>\</i><span>homework.txt</span>
+    </div>
+    <ul style="margin:1rem 0 0;padding-inline-start:1.2rem">
+      <li><span class="ltr">C:</span> هي الهارد ديسك، يعني الدولاب نفسه.</li>
+      <li>العلامة <b class="ltr" style="color:var(--pink)">\</b> معناها «ادخل جوه».</li>
+      <li>آخر حاجة في المسار هي اسم الملف.</li>
+    </ul>
+  </div>
+
+  <h3>🏴‍☠️ لعبة الكنز</h3>
+  <div class="treasure">الكنز مستخبي هنا، امشي على المسار ده وافتحه:<br><b class="ltr" style="font-size:1.1rem">C:\Users\Ahmed\Desktop\Projects\Pictures\treasure.png</b></div>
+  <div class="explorer">
+    <div class="addr">
+      <button class="btn alt" id="back" aria-label="رجوع">⬅️ رجوع</button>
+      <div class="bar ltr" id="addr">C:\</div>
+    </div>
+    <div class="files" id="exFiles"></div>
+  </div>
+  <div class="celebrate" id="exMsg" aria-live="polite"></div>
+  <div class="idea"><span class="big">🔍</span><p>على الكمبيوتر الحقيقي: افتح أي فولدر واضغط على شريط العنوان اللي فوق، هيظهرلك المسار كامل.</p></div>
+</section>
+
+<!-- 4 -->
+<section class="lesson" id="lesson4" data-title="امتداد الملف">
+  <h2>🏷️ امتداد الملف (Extension)</h2>
+  <p class="lead">الامتداد هو الحروف اللي بعد النقطة في آخر اسم الملف. هو زي الليبل اللي على البرطمان: بيقول للكمبيوتر جواه إيه، ويفتحه بأنهي برنامج.</p>
+
+  <div class="box">
+    <p style="margin-top:0"><b>اختار امتداد وشوف الملف هيتغير إزاي:</b></p>
+    <div class="ext-pick" id="extPick"></div>
+    <div class="ext-show">
+      <div class="ic" id="extIcon">📝</div>
+      <div>
+        <div class="fname">my-file<span class="e" id="extName">.txt</span></div>
+        <div>نوعه: <b id="extKind"></b></div>
+        <div>بيتفتح بـ: <b id="extApp"></b></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>إزاي نخلي الامتدادات تظهر في ويندوز</h3>
+  <ol class="steps">
+    <li>افتح <b>File Explorer</b> (أيقونة الفولدر الأصفر تحت).</li>
+    <li>اضغط على <b>View</b> من فوق.</li>
+    <li>اختار <b>Show</b>.</li>
+    <li>علّم على <b>File name extensions</b>.</li>
+  </ol>
+</section>
+
+<!-- 5 -->
+<section class="lesson" id="lesson5" data-title="أول صفحة ويب">
+  <h2>🌐 أول صفحة ويب (.html)</h2>
+  <p class="lead">ملف الـ <span class="ltr">.html</span> ده ملف نص عادي، بس لما امتداده يبقى <span class="ltr">.html</span> المتصفح بيفتحه كصفحة ويب.</p>
+
+  <h3>جرّب تكتب هنا وشوف الصفحة على اليمين بتتغير</h3>
+  <div class="chips" id="chips">
+    <button data-ins="&lt;h1&gt;عنوان كبير&lt;/h1&gt;">+ عنوان كبير h1</button>
+    <button data-ins="&lt;p&gt;فقرة جديدة&lt;/p&gt;">+ فقرة p</button>
+    <button data-ins="&lt;b&gt;كلام عريض&lt;/b&gt;">+ كلام عريض b</button>
+    <button data-ins="&lt;p style=&quot;color:red&quot;&gt;كلام أحمر&lt;/p&gt;">+ كلام ملون</button>
+    <button data-ins="&lt;p&gt;😀🚀⭐&lt;/p&gt;">+ إيموجي</button>
+  </div>
+  <div class="editor">
+    <div>
+      <div style="font-weight:600;margin-bottom:.3rem">📝 Notepad — index.html</div>
+      <textarea id="code" spellcheck="false" aria-label="كود الصفحة"></textarea>
+    </div>
+    <div class="browser">
+      <div class="top"><span class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></span>index.html</div>
+      <iframe id="preview" sandbox="" title="معاينة الصفحة"></iframe>
+    </div>
+  </div>
+
+  <h3>نعملها على الكمبيوتر الحقيقي</h3>
+  <ol class="steps">
+    <li>اعمل ملف Text جديد وافتحه بـ <b>Notepad</b>.</li>
+    <li>اكتب نفس الكود اللي فوق.</li>
+    <li>احفظ بـ <kbd>Ctrl</kbd> + <kbd>S</kbd> واقفل.</li>
+    <li>غيّر الاسم من <span class="ltr">index.txt</span> إلى <span class="ltr">index.html</span> ووافق على الرسالة.</li>
+    <li>دبل كليك على الملف، هيتفتح في المتصفح! ولو عايز تعدّل: كليك يمين ثم <b>Open with</b> ثم <b>Notepad</b>.</li>
+  </ol>
+</section>
+
+<!-- 6 -->
+<section class="lesson" id="lesson6" data-title="نسخ وقص ولصق">
+  <h2>📋 النسخ والقص واللصق</h2>
+  <div class="grid">
+    <div class="box" style="margin:0;text-align:center"><div style="font-size:2.6rem">📸</div><b>نسخ (Copy)</b><br>بنصوّر الورقة، والأصل بيفضل مكانه</div>
+    <div class="box" style="margin:0;text-align:center"><div style="font-size:2.6rem">✂️</div><b>قص (Cut)</b><br>بنشيل الورقة عشان ننقلها</div>
+    <div class="box" style="margin:0;text-align:center"><div style="font-size:2.6rem">📌</div><b>لصق (Paste)</b><br>بنحط الورقة في المكان الجديد</div>
+  </div>
+
+  <h3>جرّب: اختار ملف، انسخه أو قصه، اختار الفولدر التاني، والصق</h3>
+  <div class="row" style="margin-bottom:.8rem">
+    <button class="btn" id="cpCopy">📸 نسخ <kbd>Ctrl+C</kbd></button>
+    <button class="btn pink" id="cpCut">✂️ قص <kbd>Ctrl+X</kbd></button>
+    <button class="btn green" id="cpPaste">📌 لصق <kbd>Ctrl+V</kbd></button>
+  </div>
+  <div class="folders2" id="cpFolders"></div>
+  <div class="clip" id="clip" aria-live="polite">📋 الحافظة فاضية</div>
+
+  <h3>الاختصارات السحرية</h3>
+  <div class="short">
+    <div><span>نسخ</span><span><kbd>Ctrl</kbd> + <kbd>C</kbd></span></div>
+    <div><span>قص</span><span><kbd>Ctrl</kbd> + <kbd>X</kbd></span></div>
+    <div><span>لصق</span><span><kbd>Ctrl</kbd> + <kbd>V</kbd></span></div>
+    <div><span>تراجع</span><span><kbd>Ctrl</kbd> + <kbd>Z</kbd></span></div>
+    <div><span>تحديد الكل</span><span><kbd>Ctrl</kbd> + <kbd>A</kbd></span></div>
+    <div><span>حفظ</span><span><kbd>Ctrl</kbd> + <kbd>S</kbd></span></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="lesson" id="lesson7" data-title="حاجات مهمة كمان">
+  <h2>⭐ حاجات مهمة كمان</h2>
+
+  <h3>🗑️ سلة المحذوفات</h3>
+  <p class="lead">لما نمسح ملف بزرار <kbd>Delete</kbd> مش بيختفي على طول، بيروح سلة المحذوفات (Recycle Bin)، ونقدر نرجّعه.</p>
+  <div class="bin-wrap">
+    <div class="binlist"><h4>🖥️ سطح المكتب</h4><div id="deskList"></div></div>
+    <div class="binlist"><h4>🗑️ سلة المحذوفات</h4><div id="binList"></div></div>
+  </div>
+
+  <h3>نصايح صغيرة</h3>
+  <div class="grid">
+    <div class="box" style="margin:0"><div style="font-size:2rem">🔎</div><b>ضاع منك ملف؟</b><br>اكتب اسمه في مربع البحث في File Explorer أو في قائمة Start.</div>
+    <div class="box" style="margin:0"><div style="font-size:2rem">💾</div><b>احفظ كتير</b><br>اضغط <kbd>Ctrl</kbd> + <kbd>S</kbd> كل شوية عشان شغلك ميضيعش.</div>
+    <div class="box" style="margin:0"><div style="font-size:2rem">🔀</div><b>بدّل بين البرامج</b><br>اضغط <kbd>Alt</kbd> + <kbd>Tab</kbd>.</div>
+    <div class="box" style="margin:0"><div style="font-size:2rem">🏷️</div><b>اختار اسم واضح</b><br>«واجب-عربي» أحسن بكتير من «ملف جديد ٣».</div>
+  </div>
+  <div class="idea"><span class="big">😌</span><p>الغلط عادي! عندنا <kbd>Ctrl</kbd> + <kbd>Z</kbd> للتراجع، وسلة المحذوفات بترجّع الحاجة اللي اتمسحت.</p></div>
+</section>
+
+<!-- 8 -->
+<section class="lesson" id="lesson8" data-title="التحدي الختامي">
+  <h2>🏆 التحدي الختامي</h2>
+  <p class="lead">اعمل الخطوات دي على الكمبيوتر الحقيقي، وعلّم على كل واحدة تخلصها.</p>
+  <div id="checks"></div>
+  <div class="stars" id="stars" aria-live="polite"></div>
+  <div class="celebrate" id="win"></div>
+  <div class="row" style="justify-content:center"><button class="btn alt" id="resetChecks">ابدأ من الأول</button></div>
+</section>
+
+<div class="pager"><button class="btn alt" id="prev">➡️ اللي قبله</button><button class="btn" id="next">اللي بعده ⬅️</button></div>
+</main>
+
+<script>
+(function(){
+  const lessons=[...document.querySelectorAll('section.lesson')];
+  const nav=document.getElementById('nav');
+  const toArabic=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+  lessons.forEach((s,i)=>{
+    const a=document.createElement('a');
+    a.href='#'+s.id;
+    a.innerHTML='<span class="n">'+toArabic(i+1)+'</span>'+s.dataset.title;
+    nav.appendChild(a);
+  });
+  let cur=0;
+  function show(){
+    const id=(location.hash||'').slice(1);
+    let i=lessons.findIndex(s=>s.id===id); if(i<0)i=0;
+    cur=i;
+    lessons.forEach((s,j)=>s.classList.toggle('show',j===i));
+    [...nav.children].forEach((a,j)=>{a.classList.toggle('active',j===i); if(j===i)a.scrollIntoView({block:'nearest',inline:'center'});});
+    document.getElementById('prev').disabled=i===0;
+    document.getElementById('next').disabled=i===lessons.length-1;
+  }
+  function go(i){location.hash=lessons[i].id;window.scrollTo({top:document.querySelector('nav').offsetTop,behavior:'smooth'});}
+  document.getElementById('prev').onclick=()=>cur>0&&go(cur-1);
+  document.getElementById('next').onclick=()=>cur<lessons.length-1&&go(cur+1);
+  window.addEventListener('hashchange',show); show();
+  const active=id=>lessons[cur].id===id;
+  const typing=e=>/INPUT|TEXTAREA/.test(e.target.tagName);
+  const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  /* Lesson 1 */
+  const pad=document.getElementById('pad'),face=document.getElementById('padFace'),txt=document.getElementById('padText'),ctx=document.getElementById('ctx');
+  let clickTimer;
+  pad.addEventListener('click',e=>{ctx.style.display='none';clearTimeout(clickTimer);clickTimer=setTimeout(()=>{face.textContent='👆';txt.textContent='كليك واحدة: اخترت!';},220);});
+  pad.addEventListener('dblclick',()=>{clearTimeout(clickTimer);face.textContent='📂';txt.textContent='دبل كليك: فتحت!';});
+  pad.addEventListener('contextmenu',e=>{e.preventDefault();face.textContent='📋';txt.textContent='كليك يمين: ظهرت القائمة';const r=pad.getBoundingClientRect();ctx.style.display='block';ctx.style.top=Math.min(e.clientY-r.top,r.height-150)+'px';ctx.style.right=Math.max(4,r.right-e.clientX-150)+'px';});
+  const names={Enter:'Enter: تأكيد ✅',Backspace:'Backspace: مسح ⌫',Shift:'Shift: حروف كبيرة ⇧',' ':'Space: مسافة ␣',Tab:'Tab',Control:'Ctrl',Alt:'Alt',CapsLock:'Caps Lock',Delete:'Delete: حذف 🗑️',Escape:'Esc: إلغاء'};
+  document.addEventListener('keydown',e=>{
+    if(!active('lesson1')||typing(e))return;
+    if(e.key===' '||e.key==='Backspace')e.preventDefault();
+    document.getElementById('pressed').textContent='⌨️ انت دوست على: '+(names[e.key]||e.key);
+    document.querySelectorAll('.key').forEach(k=>{if(k.dataset.k===e.key){k.classList.add('hit');setTimeout(()=>k.classList.remove('hit'),250);}});
+  });
+
+  /* Lesson 2 */
+  const desk=document.getElementById('desk'),nm=document.getElementById('newName'),dmsg=document.getElementById('deskMsg');
+  let items=[{t:'folder',n:'صور'},{t:'file',n:'قصتي.txt'}],sel=-1;
+  const bad=/[\\\/:*?"<>|]/;
+  function say(m,ok){dmsg.textContent=m;dmsg.className='msg '+(ok?'good':'bad');}
+  function renderDesk(){
+    desk.innerHTML='';
+    items.forEach((it,i)=>{
+      const b=document.createElement('button');b.className='item'+(i===sel?' sel':'');
+      b.innerHTML='<span class="ic">'+(it.t==='folder'?'📁':'📄')+'</span>'+esc(it.n);
+      b.onclick=()=>{sel=i;renderDesk();};
+      b.ondblclick=()=>say(it.t==='folder'?'فتحت فولدر «'+it.n+'»':'فتحت ملف «'+it.n+'»',true);
+      desk.appendChild(b);
+    });
+  }
+  function check(n){
+    if(!n){say('اكتب اسم الأول ✍️');return false;}
+    if(bad.test(n)){say('الاسم فيه رمز ممنوع! شيل الرموز دي: \\ / : * ? " < > |');return false;}
+    if(items.some((x,i)=>x.n===n&&i!==sel)){say('فيه حاجة بنفس الاسم هنا، اختار اسم تاني');return false;}
+    return true;
+  }
+  document.getElementById('mkFolder').onclick=()=>{const n=nm.value.trim();sel=-1;if(!check(n))return;items.push({t:'folder',n});say('📁 عملت فولدر اسمه «'+n+'»',true);nm.value='';renderDesk();};
+  document.getElementById('mkFile').onclick=()=>{let n=nm.value.trim();sel=-1;if(n&&!n.includes('.'))n+='.txt';if(!check(n))return;items.push({t:'file',n});say('📄 عملت ملف اسمه «'+n+'» — لاحظ إن الكمبيوتر زوّد .txt في الآخر',true);nm.value='';renderDesk();};
+  function doRename(){
+    if(sel<0){say('اختار حاجة الأول بكليك واحدة 👆');return;}
+    let n=nm.value.trim();if(!n){say('اكتب الاسم الجديد في المربع، وبعدين دوس غيّر الاسم');nm.focus();return;}
+    if(!check(n))return;items[sel].n=n;say('✏️ الاسم اتغير لـ «'+n+'»',true);nm.value='';renderDesk();
+  }
+  document.getElementById('rename').onclick=doRename;
+  document.addEventListener('keydown',e=>{if(active('lesson2')&&e.key==='F2'){e.preventDefault();doRename();}});
+  renderDesk();
+
+  /* Lesson 3 */
+  const tree={Users:{Ahmed:{Desktop:{Projects:{Homework:{'math.txt':0,'arabic.docx':0},Pictures:{'cat.jpg':0,'treasure.png':0,'beach.jpg':0}},'notes.txt':0},Documents:{'story.txt':0,'Pictures':{'old.jpg':0}},Music:{'song.mp3':0}}},Windows:{System32:{}},'Program Files':{Chrome:{},Paint:{}}};
+  const icons={txt:'📝',docx:'📘',jpg:'🖼️',png:'🖼️',mp3:'🎵',mp4:'🎬',html:'🌐'};
+  let path=[];
+  const exF=document.getElementById('exFiles'),exM=document.getElementById('exMsg');
+  function node(){return path.reduce((o,k)=>o[k],tree);}
+  function renderEx(){
+    document.getElementById('addr').textContent='C:\\'+path.join('\\');
+    document.getElementById('back').disabled=path.length===0;
+    exF.innerHTML='';
+    const n=node(),keys=Object.keys(n);
+    if(!keys.length){exF.innerHTML='<p style="color:var(--muted)">الفولدر ده فاضي، ارجع وجرّب مكان تاني</p>';}
+    keys.forEach(k=>{
+      const isF=typeof n[k]==='object';
+      const b=document.createElement('button');b.className='item';
+      b.innerHTML='<span class="ic">'+(isF?'📁':(icons[k.split('.').pop()]||'📄'))+'</span><span class="ltr" style="font-family:inherit">'+esc(k)+'</span>';
+      b.onclick=()=>{
+        if(isF){path.push(k);exM.textContent='';renderEx();}
+        else if(k==='treasure.png'&&path.join('\\')==='Users\\Ahmed\\Desktop\\Projects\\Pictures'){exM.textContent='🎉💎 برافو! لقيت الكنز! 💎🎉';}
+        else{exM.textContent='📄 فتحت '+k+' — مش هو الكنز، كمّل تدوير';}
+      };
+      exF.appendChild(b);
+    });
+  }
+  document.getElementById('back').onclick=()=>{path.pop();exM.textContent='';renderEx();};
+  renderEx();
+
+  /* Lesson 4 */
+  const exts={'.txt':['📝','نص عادي','Notepad'],'.docx':['📘','مستند Word','Microsoft Word'],'.jpg':['🖼️','صورة','عارض الصور (Photos)'],'.png':['🖼️','صورة','عارض الصور (Photos)'],'.mp3':['🎵','صوت','مشغل الصوت'],'.mp4':['🎬','فيديو','مشغل الفيديو'],'.html':['🌐','صفحة ويب','المتصفح (Chrome / Edge)']};
+  const pick=document.getElementById('extPick');
+  function setExt(x){
+    const [ic,k,app]=exts[x];
+    document.getElementById('extIcon').textContent=ic;document.getElementById('extName').textContent=x;
+    document.getElementById('extKind').textContent=k;document.getElementById('extApp').textContent=app;
+    [...pick.children].forEach(b=>b.classList.toggle('on',b.textContent===x));
+  }
+  Object.keys(exts).forEach(x=>{const b=document.createElement('button');b.textContent=x;b.onclick=()=>setExt(x);pick.appendChild(b);});
+  setExt('.txt');
+
+  /* Lesson 5 */
+  const code=document.getElementById('code'),pv=document.getElementById('preview');
+  code.value='<h1>أهلاً! أنا اسمي أحمد</h1>\n<p>دي أول صفحة ويب أعملها</p>\n';
+  function upd(){pv.srcdoc='<!doctype html><meta charset="utf-8"><body dir="auto" style="font-family:Tahoma,Arial,sans-serif;padding:12px;color:#111;background:#fff">'+code.value+'</body>';}
+  code.addEventListener('input',upd);
+  document.getElementById('chips').addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b)return;
+    const ins=b.dataset.ins+'\n',p=code.selectionEnd??code.value.length;
+    code.value=code.value.slice(0,p)+ins+code.value.slice(p);code.focus();code.selectionStart=code.selectionEnd=p+ins.length;upd();
+  });
+  upd();
+
+  /* Lesson 6 */
+  const fd={hw:{name:'📁 واجبات',files:['واجب-عربي.txt','واجب-حساب.txt','رسمة.png']},pics:{name:'📁 صور',files:['قطة.jpg']}};
+  let cpSel=null,clip=null,target='pics';
+  const cpBox=document.getElementById('cpFolders'),clipEl=document.getElementById('clip');
+  function renderCp(){
+    cpBox.innerHTML='';
+    Object.keys(fd).forEach(id=>{
+      const f=fd[id],box=document.createElement('div');box.className='fbox'+(target===id?' target':'');
+      const h=document.createElement('header');h.innerHTML='<span>'+f.name+'</span>';
+      const tb=document.createElement('button');tb.textContent=target===id?'✅ هنلصق هنا':'الصق هنا';tb.onclick=()=>{target=id;renderCp();};h.appendChild(tb);
+      const fl=document.createElement('div');fl.className='files';
+      f.files.forEach(n=>{
+        const b=document.createElement('button');b.className='item'+(cpSel&&cpSel.f===id&&cpSel.n===n?' sel':'');
+        b.style.opacity=(clip&&clip.mode==='cut'&&clip.from===id&&clip.n===n)?'.45':'1';
+        b.innerHTML='<span class="ic">'+(icons[n.split('.').pop()]||'📄')+'</span>'+esc(n);
+        b.onclick=()=>{cpSel={f:id,n};renderCp();};fl.appendChild(b);
+      });
+      box.append(h,fl);cpBox.appendChild(box);
+    });
+  }
+  function cp(mode){
+    if(!cpSel){clipEl.textContent='👆 اختار ملف الأول بكليك واحدة';return;}
+    clip={mode,from:cpSel.f,n:cpSel.n};
+    clipEl.textContent=(mode==='copy'?'📸 نسخت «':'✂️ قصيت «')+clip.n+'» — اختار الفولدر اللي هتلصق فيه ودوس لصق';
+    renderCp();
+  }
+  function paste(){
+    if(!clip){clipEl.textContent='📋 الحافظة فاضية، انسخ أو قص حاجة الأول';return;}
+    const t=fd[target];
+    if(clip.mode==='cut'&&clip.from===target){clipEl.textContent='الملف موجود هنا أصلاً! اختار الفولدر التاني';return;}
+    let n=clip.n;
+    if(t.files.includes(n)){const i=n.lastIndexOf('.');n=n.slice(0,i)+' - نسخة'+n.slice(i);}
+    t.files.push(n);
+    if(clip.mode==='cut'){fd[clip.from].files=fd[clip.from].files.filter(x=>x!==clip.n);clipEl.textContent='📌 الملف اتنقل لـ '+t.name;clip=null;}
+    else clipEl.textContent='📌 لصقت نسخة في '+t.name+' — والأصل لسه مكانه';
+    cpSel=null;renderCp();
+  }
+  document.getElementById('cpCopy').onclick=()=>cp('copy');
+  document.getElementById('cpCut').onclick=()=>cp('cut');
+  document.getElementById('cpPaste').onclick=paste;
+  document.addEventListener('keydown',e=>{
+    if(!active('lesson6')||typing(e)||!(e.ctrlKey||e.metaKey))return;
+    if(e.code==='KeyC'){e.preventDefault();cp('copy');}
+    if(e.code==='KeyX'){e.preventDefault();cp('cut');}
+    if(e.code==='KeyV'){e.preventDefault();paste();}
+  });
+  renderCp();
+
+  /* Lesson 7 */
+  let dl=['واجب-علوم.docx','رسمتي.png','أغنية.mp3','لعبة.html'],bl=[];
+  function renderBin(){
+    const d=document.getElementById('deskList'),b=document.getElementById('binList');
+    d.innerHTML=dl.length?'':'<p style="margin:0;color:var(--muted)">سطح المكتب فاضي</p>';
+    b.innerHTML=bl.length?'':'<p style="margin:0;color:var(--muted)">السلة فاضية</p>';
+    dl.forEach(n=>{const r=document.createElement('div');r.className='lrow';r.innerHTML='<span>'+(icons[n.split('.').pop()]||'📄')+' '+esc(n)+'</span>';const x=document.createElement('button');x.textContent='🗑️ Delete';x.style.cssText='background:var(--pink);color:#fff';x.onclick=()=>{dl=dl.filter(y=>y!==n);bl.push(n);renderBin();};r.appendChild(x);d.appendChild(r);});
+    bl.forEach(n=>{const r=document.createElement('div');r.className='lrow';r.innerHTML='<span>'+esc(n)+'</span>';const x=document.createElement('button');x.textContent='↩️ Restore';x.style.cssText='background:var(--green);color:#fff';x.onclick=()=>{bl=bl.filter(y=>y!==n);dl.push(n);renderBin();};r.appendChild(x);b.appendChild(r);});
+  }
+  renderBin();
+
+  /* Lesson 8 */
+  const tasks=['اعمل فولدر اسمه «مشروعي» على سطح المكتب.','اعمل جواه صفحة index.html فيها اسمك وهوايتك.','افتح الصفحة في المتصفح وشوفها.','خد نسخة من الملف لفولدر تاني (Copy و Paste).','اكتب المسار الكامل للملف على ورقة.'];
+  let done=[];try{done=JSON.parse(localStorage.getItem('kids-pc-checks')||'[]')||[];}catch(e){done=[];}
+  const cw=document.getElementById('checks');
+  function renderChecks(){
+    cw.innerHTML='';
+    tasks.forEach((t,i)=>{
+      const l=document.createElement('label');l.className='check'+(done[i]?' done':'');
+      const c=document.createElement('input');c.type='checkbox';c.checked=!!done[i];
+      c.onchange=()=>{done[i]=c.checked;try{localStorage.setItem('kids-pc-checks',JSON.stringify(done));}catch(e){}renderChecks();};
+      const s=document.createElement('span');s.textContent=t;l.append(c,s);cw.appendChild(l);
+    });
+    const k=done.filter(Boolean).length;
+    document.getElementById('stars').textContent='⭐'.repeat(k)+'☆'.repeat(tasks.length-k);
+    document.getElementById('win').textContent=k===tasks.length?'🏆 مبروك! بقيت بطل الكمبيوتر 🏆':'';
+  }
+  document.getElementById('resetChecks').onclick=()=>{done=[];try{localStorage.removeItem('kids-pc-checks');}catch(e){}renderChecks();};
+  renderChecks();
+})();
+</script>
+</body>
+</html>
